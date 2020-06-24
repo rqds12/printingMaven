@@ -60,7 +60,6 @@ public class Main extends Application {
                         }
                         if (file != null) {
                             openFile(file);
-                            openButton.setText(file.getAbsolutePath());
                         }
                     }
                 });
