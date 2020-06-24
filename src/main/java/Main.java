@@ -44,20 +44,6 @@ public class Main extends Application {
                         File file = fileChooser.showOpenDialog(primaryStage);
                         fileName[0] = file.getAbsolutePath();
                         fileName[1] = file.getName();
-                        if(!System.getProperty("os.name").contains("Windows")) {
-                            int numOfSlashes = 0;
-                            int pos = 0;
-                            for(int i = 0; i< fileName[0].length(); i++){
-                                if(fileName[0].charAt(i) == '/'){
-                                    numOfSlashes++;
-                                }
-                                if(numOfSlashes==3){
-                                    pos = i;
-                                    break;
-                                }
-                            }
-                            fileName[0] = fileName[0].substring(pos);
-                        }
                         if (file != null) {
                             openFile(file);
                             openButton.setText(file.getAbsolutePath());
