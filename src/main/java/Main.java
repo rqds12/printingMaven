@@ -34,7 +34,7 @@ public class Main extends Application {
     public void start(final Stage primaryStage) throws Exception{
         primaryStage.setTitle("Printing");
         final FileChooser fileChooser = new FileChooser();
-        final String[] fileName = new String[1];
+        final String[] fileName = new String[2];
         final Button openButton = new Button("Open a PDF to print...");
         final Button printButton = new Button("Print File");
         openButton.setOnAction(
@@ -43,6 +43,7 @@ public class Main extends Application {
                     public void handle(final ActionEvent e) {
                         File file = fileChooser.showOpenDialog(primaryStage);
                             fileName[0] = file.getAbsolutePath();
+                            fileName[1] = file.getName();
                         if (file != null) {
                             openFile(file);
                             openButton.setText(file.getAbsolutePath());
@@ -54,7 +55,7 @@ public class Main extends Application {
                     @Override
                     public void handle(final ActionEvent event) {
                         try {
-                            whenUploadFileUsingSshj_thenSuccess(fileName[0]);
+                            whenUploadFileUsingSshj_thenSuccess(fileName[0], fileName[1]);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -95,13 +96,13 @@ public class Main extends Application {
     }
 
 
-    public void whenUploadFileUsingSshj_thenSuccess(String localFile)
+    public void whenUploadFileUsingSshj_thenSuccess(String localFile, String name)
             throws IOException {
         String remoteDir = "/home/sethsan/print/";
         SSHClient sshClient = setupSshj();
         SFTPClient sftpClient = sshClient.newSFTPClient();
 
-        sftpClient.put(localFile, remoteDir + localFile);
+        sftpClient.put(localFile, remoteDir + name);
 
         sftpClient.close();
         sshClient.disconnect();
