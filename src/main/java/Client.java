@@ -15,8 +15,8 @@ public class Client {
             System.out.println(i);
         }
     }
-    boolean checkRemoteFile (String string) throws IOException {
-        out.writeUTF("c " + string);
+    boolean checkRemoteFile (String file) throws IOException {
+        out.writeUTF("c " + file);
         boolean fileExist = input.readBoolean();
         if(fileExist){
             return true;
@@ -24,8 +24,8 @@ public class Client {
             return false;
         }
     }
-    boolean print(String string) throws IOException{
-        out.writeUTF("p " + string);
+    boolean print(String file) throws IOException{
+        out.writeUTF("p " + file);
         return true;
     }
 }
