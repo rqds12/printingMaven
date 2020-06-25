@@ -29,18 +29,17 @@ import java.util.logging.Logger;
 public class Main extends Application {
     private Desktop desktop = Desktop.getDesktop();
     File printFile = new File("");
-
+    Client client = null;
     @Override
     public void start(final Stage primaryStage) throws Exception{
+        client = new Client("192.168.1.81",22);
         primaryStage.setTitle("Printing");
         final FileChooser fileChooser = new FileChooser();
         final String[] fileName = new String[2];
         final Button openButton = new Button("Open a PDF to print...");
         final Button printButton = new Button("Print File");
         openButton.setOnAction(
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(final ActionEvent e) {
+                (e) -> {
                         File file = fileChooser.showOpenDialog(primaryStage);
                         fileName[0] = file.getAbsolutePath();
                         fileName[1] = file.getName();
@@ -48,20 +47,23 @@ public class Main extends Application {
                             openFile(file);
                             openButton.setText(file.getAbsolutePath());
                         }
-                    }
                 });
         printButton.setOnAction(
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(final ActionEvent event) {
+                (f) -> {
                         try {
                             whenUploadFileUsingSshj_thenSuccess(fileName[0], fileName[1]);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    }
-                }
-        );
+                        try {
+                            if (client.checkRemoteFile(fileName[1])) {
+                                client.print(fileName[1]);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    });
         final GridPane inputGridPane = new GridPane();
         GridPane.setConstraints(openButton, 0, 0);
         GridPane.setConstraints(printButton, 2,3);
@@ -82,7 +84,7 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         BasicConfigurator.configure();
         launch(args);
     }
