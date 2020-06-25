@@ -1,5 +1,3 @@
-
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,7 +15,6 @@ import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import org.apache.log4j.BasicConfigurator;
-
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +22,6 @@ import java.net.*;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 public class Main extends Application {
     private Desktop desktop = Desktop.getDesktop();
     File printFile = new File("");
