@@ -28,7 +28,8 @@ public class Main extends Application {
     Client client = null;
     @Override
     public void start(final Stage primaryStage) throws Exception{
-        client = new Client("192.168.1.81",22);
+        client = new Client("192.168.1.81",2260);
+
         primaryStage.setTitle("Printing");
         final FileChooser fileChooser = new FileChooser();
         final String[] fileName = new String[2];
@@ -52,9 +53,12 @@ public class Main extends Application {
                             e.printStackTrace();
                         }
                         try {
-                            if (client.checkRemoteFile(fileName[1])) {
+                            /*if (client.checkRemoteFile(fileName[1])) {
+                                System.out.println("here");
                                 client.print(fileName[1]);
                             }
+                             */
+                            client.print(fileName[1]);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

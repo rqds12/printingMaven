@@ -9,6 +9,8 @@ public class Client {
     public Client(String address, int port) throws IOException {
         try {
             socket = new Socket(address, port);
+            input = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            out = new DataOutputStream(socket.getOutputStream());
         } catch (UnknownHostException u) {
             System.out.println(u);
         } catch (IOException i) {
@@ -17,15 +19,21 @@ public class Client {
     }
     boolean checkRemoteFile (String file) throws IOException {
         out.writeUTF("c " + file);
-        boolean fileExist = input.readBoolean();
-        if(fileExist){
-            return true;
+        out.flush();
+        String fileExist = null;
+        fileExist = input.readUTF();
+        if(fileExist.equals("true")) {
+            out.writeBoolean(true);
         }else{
-            return false;
+            out.writeBoolean(false);
         }
+        out.flush();
+        System.out.println(fileExist);
+        return fileExist.equals("true");
     }
     boolean print(String file) throws IOException{
         out.writeUTF("p " + file);
+        out.flush();
         return true;
     }
 }
